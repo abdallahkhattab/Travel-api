@@ -11,9 +11,7 @@ class TravelObserver
      */
     public function creating(Travel $travel): void
     {
-    //  $travel->slug = Str::slug($travel->name) .'-' . uniqid();
-      $travel->slug = str($travel->name)->slug() . '-' . uniqid();
+        //  $travel->slug = Str::slug($travel->name) .'-' . uniqid();
+        $travel->slug = str($travel->name)->slug().'-'.uniqid();
     }
-
-   
 }

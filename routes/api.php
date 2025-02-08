@@ -23,22 +23,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('travels' , [TravelController::class,'index']);
-Route::get('travels/{travel:slug}/tours' , [TourController::class,'index']);
+Route::get('travels', [TravelController::class, 'index']);
+Route::get('travels/{travel:slug}/tours', [TourController::class, 'index']);
 
-Route::post('login',LoginController::class);
+Route::post('login', LoginController::class);
 
+Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
 
-Route::prefix('admin')->middleware(['auth:sanctum'])->group(function(){
-
-    Route::middleware('role:admin')->group(function(){
-        Route::post('travels',[AdminTravelController::class,'store']);
-        Route::post('travels/{travel}/tours',[AdminTourController::class,'store']);
+    Route::middleware('role:admin')->group(function () {
+        Route::post('travels', [AdminTravelController::class, 'store']);
+        Route::post('travels/{travel}/tours', [AdminTourController::class, 'store']);
     });
 
-    Route::middleware('role:editor')->group(function(){
-        Route::put('travels/{travel}',[AdminTravelController::class,'update']);
+    Route::middleware('role:editor')->group(function () {
+        Route::put('travels/{travel}', [AdminTravelController::class, 'update']);
     });
 
 });
-

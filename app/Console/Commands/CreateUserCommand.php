@@ -41,32 +41,33 @@ class CreateUserCommand extends Command
 
         // Fetch role from the database
         $role = Role::where('name', $roleName)->first();
-        if (!$role) {
+        if (! $role) {
             $this->error('Role not found');
+
             return -1;
         }
 
-        $validator = Validator::make($user,[
-            'name'=> ['required','string','max:255'],
+        $validator = Validator::make($user, [
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', Password::defaults()],
         ]);
 
-        if($validator->fails()){
-            foreach($validator->errors() as $error){
+        if ($validator->fails()) {
+            foreach ($validator->errors() as $error) {
                 $this->error($error);
             }
         }
 
         // Create the user inside a database transaction
         DB::transaction(function () use ($user, $role) {
-            $user['password']= Hash::make( $user['password']);
+            $user['password'] = Hash::make($user['password']);
             $newUser = User::create($user);
             $newUser->roles()->attach($role->id);
         });
 
         // Display success message
-        $this->info('User ' . $user['email'] . ' created successfully');
+        $this->info('User '.$user['email'].' created successfully');
 
         return 0;
     }

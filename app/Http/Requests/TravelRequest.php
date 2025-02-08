@@ -23,12 +23,12 @@ class TravelRequest extends FormRequest
     {
         return [
             //
-            
-            'is_public'=>'required|boolean',
-            'name'=>'required|string|max:225|unique:travels,name,',
+
+            'is_public' => 'required|boolean',
+            'name' => 'required|string|max:225|unique:travels,name,',
             'description' => 'required|string|max:500',
-            'number_of_days'=> 'required|integer',
-         
+            'number_of_days' => 'required|integer',
+
         ];
     }
 }
